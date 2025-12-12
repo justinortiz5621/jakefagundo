@@ -1,0 +1,555 @@
+/* --- Fonts & base styling --- */
+@font-face {
+  font-family: 'Hoefler Text';
+  src: local('Hoefler Text'), local('Hoefler'), serif;
+  font-weight: normal;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: Cambria, 'Hoefler Text', 'Liberation Serif', Times, 'Times New Roman', serif;
+  src: url('gascogneregular.woff');
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+   margin: 1.5em;
+  font-family: Cambria, 'Hoefler Text', 'Liberation Serif', Times, 'Times New Roman', serif;
+  font-size: 25px;
+	height: auto;
+  background: #574653;
+  overflow-x: hidden;
+  overflow-y: auto;
+  position: relative;
+  min-height: 100vh;
+}
+
+/* --- Text / Links --- */
+h1, .title {
+  font-size: 40px;
+  font-weight: 600;
+  color: #ddca7e;
+  letter-spacing: 2px;
+}
+
+a { 
+  color: #ddca7e; 
+  text-decoration: none; 
+}
+
+a:hover { text-decoration: underline; }
+
+p { 
+  text-align: justify; 
+  text-justify: inter-word; 
+}
+
+/* --- Content layer above rain --- */
+#content {
+  position: relative;
+  z-index: 10;
+  padding: 20px;
+  text-align: left;
+}
+
+.exhibitions a {
+  display: block;
+  font-size: 16px;
+  margin-bottom: 12px;
+}
+
+/* --- RAIN EFFECT --- */
+.rain {
+  pointer-events: none;
+  position: fixed;  /* stays on screen always */
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 1;
+  overflow: visible;
+}
+
+.drop { 
+  position: absolute; 
+  width: 2px; 
+  height: 15px; 
+  background: rgba(255,255,255,0.3);
+  bottom: 100%;
+  animation: fall 2.5s linear infinite; /* increase duration for slower fall */
+}
+
+
+@keyframes fall {
+  0%   { transform: translateY(0); opacity: 1; }
+  80%  { opacity: 0.5; }
+  100% { transform: translateY(110vh); opacity: 0; }
+}
+
+.stem { 
+  width: 1px; 
+  height: 60%; 
+  margin-left: 7px; 
+  background: linear-gradient(to bottom, rgba(255,255,255,0), rgba(255,255,255,0.25)); 
+  animation: stem 0.5s linear infinite; 
+}
+
+.splat { 
+  width: 15px; 
+  height: 10px; 
+  border-top: 2px dotted rgba(255,255,255,0.5); 
+  border-radius: 50%; 
+  opacity: 1; 
+  transform: scale(0); 
+  animation: splat 0.5s linear infinite; 
+  display: none; 
+}
+
+body.splat-toggle .splat { display: block; }
+
+/* --- CAROUSEL (your main one) --- */
+#carousel-container {
+  position: relative;
+  width: 900px;
+  max-width: 100%;
+  height: 500px;
+  margin: 2em auto;
+  z-index: 10;
+  overflow: hidden;
+}
+
+.carousel-slide {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  opacity: 0;
+  transition: opacity 0.5s ease;
+}
+
+.carousel-slide.active {
+  opacity: 1;
+  z-index: 1;
+}
+
+.carousel-slide img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  display: block;
+}
+
+.prev, .next {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  font-size: 2.5em;
+  font-weight: bold;
+  color: #ddca7e;
+  padding: 0 10px;
+  cursor: pointer;
+  user-select: none;
+  z-index: 20;
+}
+
+.prev { left: 0; }
+.next { right: 0; }
+
+.dots {
+  position: absolute;
+  width: 100%;
+  bottom: 15px;
+  text-align: center;
+  z-index: 20;
+}
+
+.dot {
+  display: inline-block;
+  width: 10px;
+  height: 10px;
+  margin: 0 6px;
+  background-color: rgba(221,202,126,0.5);
+  border-radius: 50%;
+  cursor: pointer;
+}
+
+.dot.active { background-color: #ddca7e; }
+
+/* ============================================================
+   MERGED ARTWORK + IMAGE GALLERY STYLES
+   ============================================================ */
+
+#initial { 
+  height: 100px;
+  margin-bottom: 1em;
+}
+
+#email {
+  position: absolute;
+  top:0;
+  right:0;
+  margin:1rem;
+  font-size:0.75em;
+}
+
+#artworks > .artwork {
+	font-size: 16px;
+  margin-bottom: .5em;
+}
+
+.artwork .title {
+	font-size: 16px;
+  cursor: pointer;
+}
+
+.artwork .body-container {
+  height: 0px;
+	font-size: 16px;
+  margin: 0;
+  width: 100%;
+  overflow: hidden;
+  transition: height 0.5s ease-out, margin 0.5s ease-out;
+}
+
+.artwork .body-container.visible {
+  height: 600px;
+  margin: 1em 0 2em 0;
+}
+
+.artwork .body {
+  height: 100%;
+  width: 100%;
+	font-size: 16px;
+  display: flex;
+  flex-direction: column;
+}
+
+.artwork .body > div {
+  height: 50%;
+  flex: 1;
+}
+
+.artwork .body > div:last-child {
+  margin-right: 0;
+}
+
+.artwork .body .description {
+  position: relative;
+  max-height: 200px;
+  max-width: 100%;
+  margin-bottom: 2em;
+  overflow: auto;
+}
+
+.artwork .body .descriptiona {
+  position: relative;
+  max-height: 600px;
+  max-width: 1200%;
+  margin-bottom: 2em;
+  overflow: auto;
+}
+
+.artwork .body .description span {
+  display: block;
+  width: 100%;
+  height: 100%;
+  padding-right: 1em;
+  margin-bottom: -5em;
+  overflow-y: scroll;
+  scroll-behavior: auto;
+  -webkit-overflow-scrolling: touch;
+  padding-bottom: 5em;
+}
+
+.artwork .body .description::after {
+  content: "";
+  position: absolute;
+  bottom:0;
+  left:0;
+  height: 5em;
+  width: 100%;
+  background-image: none;
+}
+
+.artwork .body .description p {
+  font-size: .75em;
+  line-height: 1.6em;
+  margin-bottom: 1em;
+}
+
+/* ---- IMAGE GALLERY (SECOND CAROUSEL) ---- */
+.image-gallery {
+  position: relative;
+}
+
+.image-gallery ul,
+.image-gallery li,
+.image-gallery figure {
+  width: 100%;
+  height: 100%;
+}
+
+.image-gallery li {
+  position: absolute;
+  display: none;
+}
+
+.image-gallery li.active {
+  display: block;
+}
+
+.image-gallery figure {
+  display: flex;
+  flex-direction: column;
+}
+
+.image-gallery figure img {
+  min-height: 0;
+  flex: 1;
+  object-fit: contain;
+}
+
+.image-gallery figcaption { 
+  width: 100%;
+  margin-top: 1em;
+  flex: 0;
+  text-align: center;
+  font-size: .75em;
+  line-height: 1.6em;
+}
+
+.image-gallery button {
+  height: 100%;
+  background: transparent;
+  outline: none;
+  border: none;
+  z-index: 5;
+  cursor: pointer;
+  padding: 0 2rem;
+  font-size: 3em;
+  color: grey;
+}
+
+.image-gallery .next-button {
+  position: absolute;
+  top:0;
+  right:0;
+}
+
+.image-gallery .prev-button {
+  position: absolute;
+  top:0;
+  left:0;
+}
+
+/* --- Desktop version for artwork text --- */
+@media (min-width: 768px) {
+
+  .artwork .body .description {
+    max-height: 600px;
+    margin-bottom: 0;
+    max-width: 400px;
+    padding-right: 1em;
+  }
+
+  .artwork .body > div {
+    height: 600px;
+    margin-right: 2em;
+  }
+
+  .artwork .body {
+    flex-direction: row;
+  }
+
+  .artwork .body .description::after {
+    display: none;
+  }
+}
+
+.span info {
+  display: block;
+  width: 500%;
+  height: 100%;
+  padding-right: 1em;
+  margin-bottom: -5em;
+  overflow-y: scroll;
+  scroll-behavior: auto;
+  -webkit-overflow-scrolling: touch;
+  padding-bottom: 5em;
+}
+
+#artworks > .artwork {
+  margin-bottom: .5em;
+}
+
+
+.artwork .title {
+  cursor: pointer;
+}
+
+.artwork .body-container {
+  height: 0px;
+  margin: 0;
+  width: 100%;
+  overflow: hidden;
+  transition: height 0.5s ease-out, margin 0.5s ease-out;
+}
+
+.artwork .body-container2 {
+  display: block;
+  width: 100%;
+  height: 100%;
+  padding-right: 1em;
+  margin-bottom: -5em;
+  overflow-y: scroll;
+  scroll-behavior: auto;
+  -webkit-overflow-scrolling: touch;
+  padding-bottom: 5em;
+}
+
+.artwork .body-container.visible {
+  height: 600px;
+  margin: 1em 0 2em 0;
+}
+
+.artwork .body-container.visible2 {
+  height: 1200px;
+  margin: 1em 0 2em 0;
+}
+
+.artwork .body {
+  height: 100%;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+.artwork .body > div {
+  height: 50%;
+  flex: 1;
+}
+
+.artwork .body > div:last-child {
+  margin-right: 0;
+}
+
+.artwork .body .description {
+  position: relative;
+  max-height: 200px;
+  max-width: 100%;
+  margin-bottom: 2em;
+  overflow: auto;
+}
+
+.artwork .body .info {
+  display: block;
+  width: 100%;
+  height: 100%;
+  padding-right: 1em;
+  margin-bottom: -5em;
+  overflow-y: scroll;
+  scroll-behavior: auto;
+  -webkit-overflow-scrolling: touch;
+  padding-bottom: 5em;
+}
+.artwork .body .description span {
+  display: block;
+  width: 100%;
+  height: 100%;
+  padding-right: 1em;
+  margin-bottom: -5em;
+  overflow-y: scroll;
+  scroll-behavior: auto;
+  -webkit-overflow-scrolling: touch;
+  padding-bottom: 5em;
+}
+
+.artwork .body .description::after {
+  content: "";
+  position: absolute;
+  bottom:0;
+  left:0;
+  height: 5em;
+  width: 100%;
+  background-image: none
+}
+
+.artwork .body .description p {
+  font-size: .75em;
+  line-height: 1.6em;
+  margin-bottom: 1em;
+}
+
+.image-gallery {
+  position: relative;
+}
+
+.image-gallery ul,
+.image-gallery li,
+.image-gallery figure {
+  width: 100%;
+  height: 100%;
+}
+
+.image-gallery li {
+  position: absolute;
+  display: none;
+}
+
+.image-gallery li.active {
+  display: block;
+}
+
+.image-gallery figure {
+  display: flex;
+  flex-direction: column;
+}
+
+.image-gallery figure img {
+  min-height: 0;
+  flex: 1;
+  object-fit: contain;
+}
+
+.image-gallery figcaption { 
+  width: 100%;
+  margin-top: 1em;
+  flex: 0;
+  text-align: center;
+  font-size: .75em;
+  line-height: 1.6em;
+
+}
+
+.image-gallery button {
+  height: 100%;
+  background: transparent;
+  outline: none;
+  border: none;
+  z-index: 5;
+  cursor: pointer;
+  padding: 0 2rem;
+  font-size: 3em;
+  color: grey;
+}
+
+.image-gallery .next-button {
+  position: absolute;
+  top:0;
+  right:0;
+}
+
+.image-gallery .prev-button {
+  position: absolute;
+  top:0;
+  left:0;
+}
+
+.span {
+}
